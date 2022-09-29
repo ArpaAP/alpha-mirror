@@ -3,6 +3,9 @@ import { useEffect, useRef } from 'react'
 
 function LockScreen() {
   useEffect(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight - window.innerHeight,
+    })
     setTimeout(() => {
       ref.current!.style.backgroundColor = 'black'
     }, 1500)

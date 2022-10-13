@@ -37,7 +37,7 @@ function LockScreen() {
     >
       <div className="text-8xl font-light mb-2">{time.format('hh:mm')}</div>
       <div>
-        {time.format('YYYY년 MM월 DD일')} {['월', '화', '수', '목', '금', '토', '일'][time.day()]}
+        {time.format('YYYY년 MM월 DD일')} {['일', '월', '화', '수', '목', '금', '토'][time.day()]}
         요일
       </div>
       <div className="mt-20 animate-pulse text-sm font-light">아무 버튼이나 클릭하십시오</div>

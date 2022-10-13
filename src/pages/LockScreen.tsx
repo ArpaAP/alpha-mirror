@@ -26,7 +26,7 @@ function LockScreen() {
       window.removeEventListener('click', handleClick)
       clearInterval(interval)
     }
-  })
+  }, [])
 
   return (
     <div
@@ -35,7 +35,7 @@ function LockScreen() {
         isFadeout ? 'opacity-0' : 'opacity-1',
       )}
     >
-      <div className="text-8xl font-light mb-2">{time.format('HH:mm')}</div>
+      <div className="text-8xl font-light mb-2">{time.format('hh:mm')}</div>
       <div>
         {time.format('YYYY년 MM월 DD일')} {['월', '화', '수', '목', '금', '토', '일'][time.day()]}
         요일

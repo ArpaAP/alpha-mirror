@@ -3,6 +3,8 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 import axios from 'axios'
+import { Command } from '@tauri-apps/api/shell'
+import sidecarChild from '../modules/sidecarChild'
 
 function HomeScreen() {
   const [time, setTime] = useState(dayjs())
@@ -31,8 +33,6 @@ function HomeScreen() {
     },
   )
 
-  console.log(data)
-
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(dayjs())
@@ -53,6 +53,8 @@ function HomeScreen() {
     (o) => o.fcstDate === time.format('YYYYMMDD') && o.fcstTime === time.format('HH[00]'),
   )
 
+  console.log(sidecarChild.data)
+
   return (
     <div className="px-5 py-3 h-screen animate-fade-in flex flex-col">
       <div className="w-full flex items-center gap-4 mb-5">
@@ -65,7 +67,7 @@ function HomeScreen() {
         </div>
       </div>
       <div className="mt-auto flex items-center gap-4">
-        <div className="mb-4 flex gap-2">
+        <div className="flex gap-2">
           <span className="text-5xl font-normal">
             {nowData?.find((o) => o.category === 'TMP').fcstValue}
           </span>

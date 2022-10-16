@@ -18,6 +18,10 @@ tauri-build = { version = "1.1.1", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.1.1", features = ["api-all", "process-command-api"] }
+ioctl-rs = "0.1.6"
+termios = "0.1.0"
+serial = "0.4.0"
+firmata = "0.2.0"
 
 [features]
 # by default Tauri runs in production mode

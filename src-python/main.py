@@ -1,3 +1,4 @@
+import json
 import sys
 from time import sleep
 from pyfirmata import Arduino, util, INPUT_PULLUP
@@ -21,9 +22,11 @@ D8.mode = INPUT_PULLUP
 sys.stdout.write('start...\n')
 
 while True:
-    is_switch_pressed = D8.read()
-    value_a0 = A0.read()
-    value_a1 = A1.read()
+    datastr = json.dumps({
+        'isSwitchPressed': bool(D8.read()),
+        'vrx': A1.read(),
+        'vry': A0.read()
+    })
 
-    sys.stdout.write(
-        f'Switch: {bool(is_switch_pressed)} A0: {value_a0} A1: {value_a1}\n')
+    sys.stdout.write(f'{datastr}\n')
+    sleep(0.01)

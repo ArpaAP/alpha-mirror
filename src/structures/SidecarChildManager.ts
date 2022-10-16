@@ -24,6 +24,7 @@ export class SidecarChildManager {
     command.on('error', (error) => console.error(`command error: "${error}"`))
 
     command.stdout.on('data', (line) => {
+      console.log(line)
       this.data = JSON.parse(line)
     })
     command.stderr.on('data', (line) => console.log(`command stderr: "${line}"`))

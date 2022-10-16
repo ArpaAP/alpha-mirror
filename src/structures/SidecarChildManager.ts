@@ -6,12 +6,13 @@ export interface SidecarChildManagerData {
     vrx: number
     vry: number
   } | null
+  direction: 'fl' | 'bl' | 'l' | 'f' | 'b' | null | 'fr' | 'br' | 'r'
 }
 
 export class SidecarChildManager {
   public command!: Command
   public child!: Child
-  public data: SidecarChildManagerData = { joystick: null }
+  public data: SidecarChildManagerData = { joystick: null, direction: null }
 
   async load() {
     console.log('loading')
@@ -24,8 +25,33 @@ export class SidecarChildManager {
     command.on('error', (error) => console.error(`command error: "${error}"`))
 
     command.stdout.on('data', (line) => {
-      console.log(line)
-      this.data = JSON.parse(line)
+      const data = JSON.parse(line) as SidecarChildManagerData['joystick']
+      this.data.joystick = data
+
+      let direction = null
+
+      if (data!.vrx < 0.25 && data!.vry < 0.25) {
+        direction = 'fl'
+      } else if (data!.vrx < 0.25 && data!.vry > 0.75) {
+        direction = 'bl'
+      } else if (data!.vrx < 0.25 && data!.vry > 0.25 && data!.vry < 0.75) {
+        direction = 'l'
+      } else if (data!.vrx > 0.25 && data!.vrx < 0.75 && data!.vry < 0.25) {
+        direction = 'f'
+      } else if (data!.vrx > 0.25 && data!.vrx < 0.75 && data!.vry > 0.75) {
+        direction = 'b'
+      } else if (data!.vrx > 0.25 && data!.vrx < 0.75 && data!.vry > 0.25 && data!.vry < 0.75) {
+        direction = null
+      } else if (data!.vrx > 0.75 && data!.vry < 0.25) {
+        direction = 'fr'
+      } else if (data!.vrx > 0.75 && data!.vry > 0.75) {
+        direction = 'br'
+      } else if (data!.vrx > 0.75 && data!.vry > 0.25 && data!.vry < 0.75) {
+        direction = 'r'
+      }
+
+      console.log(direction)
+      this.data.direction = direction as any
     })
     command.stderr.on('data', (line) => console.log(`command stderr: "${line}"`))
 

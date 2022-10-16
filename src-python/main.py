@@ -29,4 +29,4 @@ while True:
     })
 
     sys.stdout.write(f'{datastr}\n')
-    sleep(0.01)
+    sleep(0.0008)

@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 import axios from 'axios'
 import { Command } from '@tauri-apps/api/shell'
-import sidecarChild from '../modules/sidecarChild'
+import sidecarChild from '../modules/SidecarChild'
 
 function HomeScreen() {
   const [time, setTime] = useState(dayjs())
   const navigate = useNavigate()
+  const [direction, setDirection] = useState<string | null>(null)
 
   const { data, mutate } = useSWR(
     'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst',
@@ -48,12 +49,18 @@ function HomeScreen() {
     }
   }, [])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDirection(sidecarChild.data.direction)
+    }, 100)
+
+    return () => clearInterval(interval)
+  })
+
   const items = data?.response.body.items.item as any[]
   const nowData = items?.filter(
     (o) => o.fcstDate === time.format('YYYYMMDD') && o.fcstTime === time.format('HH[00]'),
   )
-
-  console.log(sidecarChild.data)
 
   return (
     <div className="px-5 py-3 h-screen animate-fade-in flex flex-col">
@@ -66,6 +73,7 @@ function HomeScreen() {
           {time.format('MM월 DD일')} ({['일', '월', '화', '수', '목', '금', '토'][time.day()]})
         </div>
       </div>
+      <div className="font-semibold text-xl">{direction ?? '정지'}</div>
       <div className="mt-auto flex items-center gap-4">
         <div className="flex gap-2">
           <span className="text-5xl font-normal">

@@ -21,7 +21,7 @@ function HomeScreen() {
               '1bd+tL1dNc9U57l7zVmpC0au/r9+ZhZ7dFBOUK5oJauUA9nDSFlqX17wpO4AhUDvlLh4GiqwuEnhaopTfWLVJw==',
             numOfRows: 1000,
             pageNo: 1,
-            base_date: '20221013',
+            base_date: '20221015',
             base_time: '2300',
             dataType: 'json',
             nx: 87,
@@ -57,7 +57,7 @@ function HomeScreen() {
     return () => clearInterval(interval)
   })
 
-  const items = data?.response.body.items.item as any[]
+  const items = data?.response?.body?.items?.item as any[]
   const nowData = items?.filter(
     (o) => o.fcstDate === time.format('YYYYMMDD') && o.fcstTime === time.format('HH[00]'),
   )

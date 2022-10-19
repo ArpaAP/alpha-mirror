@@ -12,11 +12,6 @@ function App() {
 
   useEffect(() => {
     const handleKeydown = async (event: KeyboardEvent) => {
-      if (event.key === 'f') {
-        const isFullscreen = await appWindow.isFullscreen()
-        await appWindow.setFullscreen(!isFullscreen)
-      }
-
       if (event.key === 'k') {
         console.log('asdfasd')
         setShowKeyboard(!showKeyboard)

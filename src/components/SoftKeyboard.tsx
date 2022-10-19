@@ -47,7 +47,7 @@ export default function SoftKeyboard({ show }: SoftKeyboardProps) {
       }
 
       setDirection(newDirection)
-    }, 100)
+    })
 
     return () => clearInterval(interval)
   })

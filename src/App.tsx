@@ -15,16 +15,7 @@ function App() {
       setShowKeyboard(!showKeyboard)
     })
 
-    const handleKeydown = async (event: KeyboardEvent) => {
-      if (event.key === 'k') {
-        console.log('asdfasd')
-        setShowKeyboard(!showKeyboard)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeydown)
     return () => {
-      window.removeEventListener('keydown', handleKeydown)
       unlisten.then((r) => r())
     }
   })

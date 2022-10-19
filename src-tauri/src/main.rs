@@ -30,7 +30,7 @@ fn main() {
     .accelerator("Command+K");
     let toggle_fullscreen =
         CustomMenuItem::new("toggle_fullscreen".to_string(), "Toggle Fullscreen")
-            .accelerator("Command+F");
+            .accelerator("Command+Alt+F");
 
     let debug_menu = Submenu::new(
         "Debug",

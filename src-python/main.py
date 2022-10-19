@@ -23,7 +23,7 @@ sys.stdout.write('start...\n')
 
 while True:
     datastr = json.dumps({
-        'isSwitchPressed': bool(D8.read()),
+        'isSwitchPressed': not D8.read(),  # Pull-up 저항에 의해 값 리버스
         'vrx': A1.read(),
         'vry': A0.read()
     })

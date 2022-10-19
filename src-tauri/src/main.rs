@@ -27,8 +27,17 @@ fn main() {
         "toggle_software_keyboard".to_string(),
         "Toggle Software Keyboard",
     )
-    .accelerator("Ctrl+K");
-    let debug_menu = Submenu::new("Debug", Menu::new().add_item(toggle_keyboard));
+    .accelerator("Command+K");
+    let toggle_fullscreen =
+        CustomMenuItem::new("toggle_fullscreen".to_string(), "Toggle Fullscreen")
+            .accelerator("Command+F");
+
+    let debug_menu = Submenu::new(
+        "Debug",
+        Menu::new()
+            .add_item(toggle_keyboard)
+            .add_item(toggle_fullscreen),
+    );
     let menu = Menu::os_default("Alpha Mirror")
         .add_native_item(MenuItem::EnterFullScreen)
         .add_submenu(debug_menu);
@@ -39,6 +48,26 @@ fn main() {
             my_custom_command
         ])
         .menu(menu)
+        .on_menu_event(|event| match event.menu_item_id() {
+            "toggle_software_keyboard" => {
+                event
+                    .window()
+                    .app_handle()
+                    .emit_all("toggle_software_keyboard", ())
+                    .expect("error on emitting software keyboard toggle event");
+            }
+            "toggle_fullscreen" => {
+                let is_fullscreen = event
+                    .window()
+                    .is_fullscreen()
+                    .expect("error on getting is fullscreen");
+                event
+                    .window()
+                    .set_fullscreen(!is_fullscreen)
+                    .expect("error on toggle fullscreen");
+            }
+            _ => {}
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

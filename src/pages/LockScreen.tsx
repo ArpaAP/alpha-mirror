@@ -2,12 +2,30 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
+import sidecarChild from '../modules/SidecarChild'
 
 function LockScreen() {
   const [time, setTime] = useState(dayjs())
   const navigate = useNavigate()
+  const [btnClicked, setBtnClicked] = useState(false)
+  const [direction, setDirection] = useState<string | null>(null)
 
   const [isFadeout, setIsFadeout] = useState(false)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      let newDirection = sidecarChild.data.direction
+      let newBtnClicked = sidecarChild.data.joystick!.isSwitchPressed
+
+      if (direction !== newDirection || btnClicked !== newBtnClicked) {
+        navigate('/home')
+      }
+      setDirection(newDirection)
+      setBtnClicked(newBtnClicked)
+    }, 100)
+
+    return () => clearInterval(interval)
+  })
 
   useEffect(() => {
     const handleClick = () => {

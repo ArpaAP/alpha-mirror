@@ -4,13 +4,17 @@ import HomeScreen from './pages/HomeScreen'
 import LockScreen from './pages/LockScreen'
 import SplashScreen from './pages/SplashScreen'
 
-import { appWindow } from '@tauri-apps/api/window'
 import SoftKeyboard from './components/SoftKeyboard'
+import { listen } from '@tauri-apps/api/event'
 
 function App() {
   const [showKeyboard, setShowKeyboard] = useState(false)
 
   useEffect(() => {
+    const unlisten = listen('toggle_software_keyboard', (event) => {
+      setShowKeyboard(!showKeyboard)
+    })
+
     const handleKeydown = async (event: KeyboardEvent) => {
       if (event.key === 'k') {
         console.log('asdfasd')
@@ -21,6 +25,7 @@ function App() {
     window.addEventListener('keydown', handleKeydown)
     return () => {
       window.removeEventListener('keydown', handleKeydown)
+      unlisten.then((r) => r())
     }
   })
 

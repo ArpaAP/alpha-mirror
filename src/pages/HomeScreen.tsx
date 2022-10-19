@@ -9,6 +9,7 @@ import sidecarChild from '../modules/SidecarChild'
 function HomeScreen() {
   const [time, setTime] = useState(dayjs())
   const navigate = useNavigate()
+  const [btnClicked, setBtnClicked] = useState(false)
   const [direction, setDirection] = useState<string | null>(null)
 
   const { data, mutate } = useSWR(
@@ -52,6 +53,7 @@ function HomeScreen() {
   useEffect(() => {
     const interval = setInterval(() => {
       setDirection(sidecarChild.data.direction)
+      setBtnClicked(sidecarChild.data.joystick!.isSwitchPressed)
     }, 100)
 
     return () => clearInterval(interval)
@@ -73,7 +75,9 @@ function HomeScreen() {
           {time.format('MM월 DD일')} ({['일', '월', '화', '수', '목', '금', '토'][time.day()]})
         </div>
       </div>
-      <div className="font-semibold text-xl">{direction ?? '정지'}</div>
+      <div className="font-semibold text-xl">
+        조이스틱 모듈: {direction ?? '정지'} {btnClicked && '버튼 클릭됨'}
+      </div>
       <div className="mt-auto flex items-center gap-4">
         <div className="flex gap-2">
           <span className="text-5xl font-normal">

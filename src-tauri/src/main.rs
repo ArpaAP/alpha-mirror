@@ -31,12 +31,15 @@ fn main() {
     let toggle_fullscreen =
         CustomMenuItem::new("toggle_fullscreen".to_string(), "Toggle Fullscreen")
             .accelerator("Command+Alt+F");
+    let toggle_navbar =
+        CustomMenuItem::new("toggle_navbar".to_string(), "Toggle Navbar").accelerator("Command+N");
 
     let debug_menu = Submenu::new(
         "Debug",
         Menu::new()
             .add_item(toggle_keyboard)
-            .add_item(toggle_fullscreen),
+            .add_item(toggle_fullscreen)
+            .add_item(toggle_navbar),
     );
     let menu = Menu::os_default("Alpha Mirror")
         .add_native_item(MenuItem::EnterFullScreen)
@@ -65,6 +68,13 @@ fn main() {
                     .window()
                     .set_fullscreen(!is_fullscreen)
                     .expect("error on toggle fullscreen");
+            }
+            "toggle_navbar" => {
+                event
+                    .window()
+                    .app_handle()
+                    .emit_all("toggle_navbar", ())
+                    .expect("error on emitting navbar toggle event");
             }
             _ => {}
         })

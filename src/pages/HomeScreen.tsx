@@ -68,7 +68,7 @@ function HomeScreen() {
     <div className="px-5 py-3 h-screen animate-fade-in flex flex-col">
       <div className="w-full flex items-center gap-4 mb-5">
         <div className="flex gap-2 items-center">
-          <div className="text-3xl font-bold">{time.format('hh:mm')}</div>
+          <div className="text-2xl font-bold">{time.format('hh:mm')}</div>
           <div className="">{time.format('A')}</div>
         </div>
         <div className="ml-auto text-md">
@@ -76,8 +76,9 @@ function HomeScreen() {
         </div>
       </div>
       <div className="font-semibold text-xl">
-        조이스틱 모듈: {direction ?? '정지'} {btnClicked && '버튼 클릭됨'}
+        조이스틱 모듈: {direction ?? '정지'} {btnClicked && ', 버튼 클릭됨'}
       </div>
+
       <div className="mt-auto flex items-center gap-4">
         <div className="flex gap-2">
           <span className="text-5xl font-normal">

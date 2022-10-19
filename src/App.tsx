@@ -6,9 +6,11 @@ import SplashScreen from './pages/SplashScreen'
 
 import SoftKeyboard from './components/SoftKeyboard'
 import { listen } from '@tauri-apps/api/event'
+import Topbar from './components/Topbar'
 
 function App() {
   const [showKeyboard, setShowKeyboard] = useState(false)
+  const [showNavbar, setShowNavbar] = useState(false)
 
   useEffect(() => {
     const unlisten = listen('toggle_software_keyboard', (event) => {
@@ -20,8 +22,19 @@ function App() {
     }
   })
 
+  useEffect(() => {
+    const unlisten = listen('toggle_navbar', (event) => {
+      setShowNavbar(!showNavbar)
+    })
+
+    return () => {
+      unlisten.then((r) => r())
+    }
+  })
+
   return (
     <BrowserRouter>
+      <Topbar show={showNavbar} />
       <Routes>
         <Route path="/" element={<LockScreen />} />
         <Route path="/splash" element={<SplashScreen />} />

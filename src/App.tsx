@@ -6,41 +6,63 @@ import SplashScreen from './pages/SplashScreen'
 
 import SoftKeyboard from './components/SoftKeyboard'
 import { listen } from '@tauri-apps/api/event'
-import Topbar from './components/Topbar'
+import Controlbar from './components/Controlbar'
+import BottomMenu from './components/BottomMenu'
+import { useAtom } from 'jotai'
+import {
+  buttonClickedAtom,
+  joystickDirectionAtom,
+  showBottomMenuAtom,
+  showControlbarAtom,
+  showSoftKeyboardAtom,
+} from './atoms'
+import sidecarChild from './modules/SidecarChild'
 
 function App() {
-  const [showKeyboard, setShowKeyboard] = useState(false)
-  const [showNavbar, setShowNavbar] = useState(false)
+  const [showKeyboard, setShowKeyboard] = useAtom(showSoftKeyboardAtom)
+  const [showControlbar, setShowControlbar] = useAtom(showControlbarAtom)
+  const [showBottomMenu, setShowBottomMenu] = useAtom(showBottomMenuAtom)
+
+  const [direction, setDirection] = useAtom(joystickDirectionAtom)
+  const [buttonClicked, setButtonClicked] = useAtom(buttonClickedAtom)
 
   useEffect(() => {
-    const unlisten = listen('toggle_software_keyboard', (event) => {
-      setShowKeyboard(!showKeyboard)
-    })
+    const interval = setInterval(() => {
+      setDirection(sidecarChild.data.direction)
+      setButtonClicked(sidecarChild.data.joystick!.isSwitchPressed)
+    }, 100)
 
-    return () => {
-      unlisten.then((r) => r())
-    }
+    return () => clearInterval(interval)
   })
 
   useEffect(() => {
-    const unlisten = listen('toggle_navbar', (event) => {
-      setShowNavbar(!showNavbar)
-    })
+    const unlistens = [
+      listen('toggle_software_keyboard', () => {
+        setShowKeyboard(!showKeyboard)
+      }),
+      listen('toggle_controlbar', () => {
+        setShowControlbar(!showControlbar)
+      }),
+      listen('toggle_bottom_menu', () => {
+        setShowBottomMenu(!showBottomMenu)
+      }),
+    ]
 
     return () => {
-      unlisten.then((r) => r())
+      unlistens.map((unlisten) => unlisten.then((r) => r()))
     }
   })
 
   return (
     <BrowserRouter>
-      <Topbar show={showNavbar} />
+      <Controlbar show={showControlbar} />
       <Routes>
         <Route path="/" element={<LockScreen />} />
         <Route path="/splash" element={<SplashScreen />} />
         <Route path="/home" element={<HomeScreen />} />
       </Routes>
       <SoftKeyboard show={showKeyboard} />
+      <BottomMenu show={showBottomMenu} />
     </BrowserRouter>
   )
 }

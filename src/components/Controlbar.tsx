@@ -1,12 +1,15 @@
 import { Transition } from '@headlessui/react'
+import { useAtomValue } from 'jotai'
+import { useEffect, useState } from 'react'
+import { joystickDirectionAtom } from '../atoms'
 
-interface SoftKeyboardProps {
+interface ControlbarProps {
   show?: boolean
 }
 
-export default function Topbar({ show }: SoftKeyboardProps) {
+export default function Controlbar({ show }: ControlbarProps) {
   return (
-    <div className="fixed inset-0 z-[99999] px-4">
+    <div className="fixed inset-0 z-[99999]">
       <Transition
         show={show}
         enter="transition-all duration-500 ease-out"

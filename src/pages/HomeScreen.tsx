@@ -79,15 +79,31 @@ function HomeScreen() {
         조이스틱 모듈: {direction ?? '정지'} {btnClicked && ', 버튼 클릭됨'}
       </div>
 
-      <div className="mt-auto flex items-center gap-4">
-        <div className="flex gap-2">
-          <span className="text-5xl font-normal">
-            {nowData?.find((o) => o.category === 'TMP').fcstValue}
-          </span>
-          <span className="text-2xl font-light">°C</span>
+      <div className="mt-auto flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <div className="flex gap-2">
+            <span className="text-5xl font-normal">
+              {nowData?.find((o) => o.category === 'TMP').fcstValue}
+            </span>
+            <span className="text-2xl font-light">°C</span>
+          </div>
+
+          <div className="text-sm">달서구 신당동</div>
         </div>
 
-        <div className="text-sm">달서구 신당동</div>
+        <div>
+          <table>
+            <thead>
+              <th>asdf</th>
+              <th>asdf</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>asdf</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

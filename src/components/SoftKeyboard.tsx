@@ -55,7 +55,7 @@ export default function SoftKeyboard({ show }: SoftKeyboardProps) {
   console.log(current)
 
   return (
-    <div className="fixed inset-x-0 bottom-0 w-screen z-[99999] px-4 py-3">
+    <div className="fixed inset-x-0 bottom-0 w-screen z-[999] px-4 py-3">
       <Transition
         show={show}
         enter="transition-all duration-500 ease-in-out"

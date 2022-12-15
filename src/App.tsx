@@ -17,6 +17,11 @@ import {
   showSoftKeyboardAtom,
 } from './atoms'
 import sidecarChild from './modules/SidecarChild'
+import WeatherScreen from './pages/WeatherScreen'
+import NewsScreen from './pages/NewsScreen'
+import CalendarScreen from './pages/CalendarScreen'
+import CovidScreen from './pages/CovidScreen'
+import MealScreen from './pages/MealScreen'
 
 function App() {
   const [showKeyboard, setShowKeyboard] = useAtom(showSoftKeyboardAtom)
@@ -60,6 +65,11 @@ function App() {
         <Route path="/" element={<LockScreen />} />
         <Route path="/splash" element={<SplashScreen />} />
         <Route path="/home" element={<HomeScreen />} />
+        <Route path="/weather" element={<WeatherScreen />} />
+        <Route path="/news" element={<NewsScreen />} />
+        <Route path="/calendar" element={<CalendarScreen />} />
+        <Route path="/covid" element={<CovidScreen />} />
+        <Route path="/meal" element={<MealScreen />} />
       </Routes>
       <SoftKeyboard show={showKeyboard} />
       <BottomMenu show={showBottomMenu} />
